@@ -1,12 +1,10 @@
 class HoptimistScraperService
 
   def initialize
-    browser = Capybara.current_session
-    Capybara.using_wait_time(120) do
-      browser.visit("https://business.untappd.com/embeds/iframes/35562/137777")
-      browser.find(".tab-anchor", text: "Cans + Bottles").click
-      @beer_elements = browser.all(".item")
-    end
+    @response = URI.open("https://business.untappd.com/locations/35562/themes/137777/js")
+    stripped_text = File.read(@response).split("container.innerHTML = \"  ")[1].split("function(")[0].strip.gsub("\\n","").gsub("\\\\", "").gsub("\\\\\\\\", "").gsub("\\", "")
+    noko = Nokogiri::HTML(stripped_text)
+    @beer_elements = noko.css("#menu-114294")[0].css(".item-details")
   end
 
   def menu
@@ -27,8 +25,8 @@ class HoptimistScraperService
 
   def get_raw_text_from_selector(element, selector)
     begin
-      text = element.find(selector).text.strip
-    rescue Capybara::ElementNotFound
+      text = element.css(selector).first.inner_text.strip
+    rescue NoMethodError
       nil
     end
   end
