@@ -2,9 +2,11 @@ class HoptimistScraperService
 
   def initialize
     browser = Capybara.current_session
-    browser.visit("https://business.untappd.com/embeds/iframes/35562/137777")
-    browser.find(".tab-anchor", text: "Cans + Bottles").click
-    @beer_elements = browser.all(".item")
+    Capybara.using_wait_time(120) do
+      browser.visit("https://business.untappd.com/embeds/iframes/35562/137777")
+      browser.find(".tab-anchor", text: "Cans + Bottles").click
+      @beer_elements = browser.all(".item")
+    end
   end
 
   def menu
