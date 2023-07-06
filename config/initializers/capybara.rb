@@ -1,1 +1,0 @@
-Capybara.default_driver = :selenium_chrome_headless # :selenium_chrome
