@@ -1,5 +1,9 @@
 class BeersController < ApplicationController
-  def index
+  def drafts
     render json: UntappdScraperService.new.full_menu
+  end
+
+  def cans
+    render json: HoptimistScraperService.new.menu
   end
 end

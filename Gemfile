@@ -46,3 +46,7 @@ gem "nokogiri", "~> 1.15"
 gem "open-uri", "~> 0.3.0"
 
 gem "pry", "~> 0.14.2"
+
+gem "capybara", "~> 3.39"
+
+gem "selenium-webdriver", "~> 4.10"
