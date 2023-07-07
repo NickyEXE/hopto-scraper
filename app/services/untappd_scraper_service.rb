@@ -22,7 +22,11 @@ class UntappdScraperService
   private
 
   def filter_beers(beers)
-    beers.filter{|item| item[:beer_type].downcase.include?(@params["beer_type"].downcase)}
+    beers.filter{|item| item[:beer_type].downcase.include?(beer_type.downcase)}
+  end
+
+  def beer_type
+    @params["beer_type"] || ""
   end
 
   def get_menu(html)
