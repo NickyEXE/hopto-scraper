@@ -9,7 +9,7 @@ class HoptimistScraperService
   end
 
   def menu
-    filter_beers(@beer_elements.map{|element| element_to_item(element)})
+    {cans: filter_beers(@beer_elements.map{|element| element_to_item(element)})}
   end
 
   private
