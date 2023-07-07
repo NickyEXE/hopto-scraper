@@ -15,7 +15,7 @@ class HoptimistScraperService
   private
 
   def filter_beers(beers)
-    beers.filter{|item| item[:beer_type].downcase.include?(beer_type.downcase)}.sort_by{|beer| beer[:name]}
+    beers.filter{|item| item.values.join("|").downcase.include?(beer_type.downcase)}.sort_by{|beer| beer[:name]}
   end
 
   def beer_type
