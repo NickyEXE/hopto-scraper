@@ -1,9 +1,10 @@
 class UntappdScraperService
 
-  def initialize
+  def initialize(params)
     @response = Nokogiri::HTML(URI.open("https://untappd.com/v/the-hoptimist/10581626"))
     @menu_html = @response.css("#section-menu-list-624130").first.css(".beer-details")
     @on_deck_html = @response.css("#section-menu-list-624132").first.css(".beer-details")
+    @params = params
   end
 
   def full_menu
@@ -11,14 +12,18 @@ class UntappdScraperService
   end
 
   def menu
-    get_menu(@menu_html)
+    filter_beers(get_menu(@menu_html))
   end
 
   def on_deck_menu
-    get_menu(@on_deck_html)
+    filter_beers(get_menu(@on_deck_html))
   end
 
   private
+
+  def filter_beers(beers)
+    beers.filter{|item| item[:beer_type].downcase.include?(@params["beer_type"].downcase)}
+  end
 
   def get_menu(html)
     html.map{|beer_detail_element| element_to_item(beer_detail_element)}
