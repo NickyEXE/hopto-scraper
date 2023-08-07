@@ -1,10 +1,8 @@
 class UsersController < ApplicationController
 
   def cancel
-    cancelled_user = User.find_or_create_by(discord_id: params["cancelled_member"]["discord_id"]) do |u|
-      u.username = params["cancelled_member"]["username"]
-    end
-    cancelling_user = User.find_or_create_by(discord_id: params["cancelling_member"]["discord_id"]) do |u|
+    cancelled_user = find_and_update_name_or_create(params["cancelled_member"])
+    cancelling_user = find_and_update_name_or_create(params["cancelling_member"]) do |u|
       u.username = params["cancelling_member"]["username"]
     end
     cancelling_user.cancel_user(cancelled_user)
@@ -22,6 +20,16 @@ class UsersController < ApplicationController
     else
       render json: {messages: ["User has not been cancelled yet."]}
     end
+  end
+
+  private
+
+  def find_and_update_name_or_create(identifier_params)
+    user = User.find_or_create_by(discord_id: identifier_params["discord_id"]) do |u|
+      u.username = identifier_params["username"]
+    end
+    user.username != identifier_params["username"] && user.update(username: identifier_params["username"])
+    user
   end
 
 end
