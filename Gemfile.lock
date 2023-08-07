@@ -115,6 +115,7 @@ GEM
       stringio
       time
       uri
+    pg (1.5.3)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -177,6 +178,7 @@ DEPENDENCIES
   debug
   nokogiri (~> 1.15)
   open-uri (~> 0.3.0)
+  pg (~> 1.5)
   pry (~> 0.14.2)
   puma (~> 5.0)
   rails (~> 7.0.5)
