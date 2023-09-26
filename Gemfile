@@ -49,3 +49,7 @@ gem "pry", "~> 0.14.2"
 
 
 gem "pg", "~> 1.5"
+
+gem "ruby-openai", "~> 5.1"
+
+gem "dotenv-rails", "~> 2.8"
