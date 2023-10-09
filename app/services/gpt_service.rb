@@ -7,7 +7,9 @@ class GptService
   end
 
   def handle_message
-    sentiment_analysis == "TRUE" && snarky_response
+    unless ENV.has_key?("DISABLE_BOT") && ENV.fetch("DISABLE_BOT") == "TRUE"
+      sentiment_analysis == "TRUE" && snarky_response
+    end
   end
 
   def sentiment_analysis
