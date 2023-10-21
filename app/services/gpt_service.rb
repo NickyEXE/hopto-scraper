@@ -22,6 +22,7 @@ class GptService
   def sentiment_analysis
     p "guarantee_response:"
     p guarantee_response
+    p guarantee_response == "TRUE"
     guarantee_response == "TRUE" || chat(File.read("lib/prompts/sentiment.txt"), "gpt-3.5-turbo") == "TRUE"
   end
 
