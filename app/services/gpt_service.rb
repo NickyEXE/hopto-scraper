@@ -1,14 +1,21 @@
 class GptService
-  attr_reader :client, :message
+  attr_reader :client, :message, :guarantee_response
 
-  def initialize(message)
+  def initialize(message, guarantee_response = false)
     @client = OpenAI::Client.new
     @message = message
+    @guarantee_response = guarantee_response
   end
 
   def handle_message
     unless ENV.has_key?("DISABLE_BOT") && ENV.fetch("DISABLE_BOT") == "TRUE"
-      sentiment_analysis == "TRUE" && snarky_response
+      if sentiment_analysis == "TRUE" || guarantee_response
+        if ENV.fetch("PERSONALITY") == "evil"
+          snarky_response
+        elsif ENV.fetch("PERSONALITY") == "maliciously_kind"
+          maliciously_kind_response
+        end
+      end
     end
   end
 
@@ -17,7 +24,11 @@ class GptService
   end
 
   def snarky_response
-    chat(File.read("lib/prompts/hoptobot.txt"), "gpt-4")
+    chat(File.read("lib/prompts/evil.txt"), "gpt-4")
+  end
+
+  def maliciously_kind_response
+    chat(File.read("lib/prompts/maliciously_kind.txt"), "gpt-4")
   end
 
   def chat(prompt, model)
