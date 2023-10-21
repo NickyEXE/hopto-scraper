@@ -10,5 +10,5 @@ desc 'Get sentiment'
 task sentiment: :environment do
     p "Enter message"
     message = STDIN.gets.chomp()
-    p GptService.new(message, true).sentiment_analysis
+    p GptService.new(message, "TRUE").sentiment_analysis
 end

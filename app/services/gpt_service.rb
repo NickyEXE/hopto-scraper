@@ -9,7 +9,7 @@ class GptService
 
   def handle_message
     unless ENV.has_key?("DISABLE_BOT") && ENV.fetch("DISABLE_BOT") == "TRUE"
-      if sentiment_analysis == "TRUE" || guarantee_response
+      if sentiment_analysis
         if ENV.fetch("PERSONALITY") == "evil"
           snarky_response
         elsif ENV.fetch("PERSONALITY") == "maliciously_kind"
@@ -20,7 +20,7 @@ class GptService
   end
 
   def sentiment_analysis
-    chat(File.read("lib/prompts/sentiment.txt"), "gpt-3.5-turbo")
+    guarantee_response == "TRUE" || chat(File.read("lib/prompts/sentiment.txt"), "gpt-3.5-turbo") == "TRUE"
   end
 
   def snarky_response
