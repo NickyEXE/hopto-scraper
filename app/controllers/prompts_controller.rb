@@ -6,14 +6,14 @@ class PromptsController < ApplicationController
 
   def create
     prompt = Prompt.smart_create(params[:name], params[:prompt])
-    prompt.enable!
     render json: prompt
   end
 
   def set_prompt
     prompt = Prompt.find_by(id: params[:id])
     if prompt
-      prompt.enable!
+      Prompt.update_all(enabled: false)
+      prompt.update(enabled: true)
       render json: prompt
     else
       render json: {error: "Could not find prompt with that id"}, status: 404
