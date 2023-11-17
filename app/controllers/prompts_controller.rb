@@ -5,7 +5,7 @@ class PromptsController < ApplicationController
   end
 
   def create
-    prompt = Prompt.create(name: params[:name], prompt: params[:prompt])
+    prompt = Prompt.smart_create(params[:name], params[:prompt])
     prompt.enable!
     render json: prompt
   end
