@@ -10,25 +10,13 @@ class GptService
   def handle_message
     unless ENV.has_key?("DISABLE_BOT") && ENV.fetch("DISABLE_BOT") == "TRUE"
       if sentiment_analysis
-        if ENV.fetch("PERSONALITY") == "evil"
-          snarky_response
-        elsif ENV.fetch("PERSONALITY") == "maliciously_kind"
-          maliciously_kind_response
-        end
+        chat(Prompt.current_prompt, "gpt-4")
       end
     end
   end
 
   def sentiment_analysis
     guarantee_response == true || chat(File.read("lib/prompts/sentiment.txt"), "gpt-3.5-turbo") == "TRUE"
-  end
-
-  def snarky_response
-    chat(File.read("lib/prompts/evil.txt"), "gpt-4")
-  end
-
-  def maliciously_kind_response
-    chat(File.read("lib/prompts/maliciously_kind.txt"), "gpt-4")
   end
 
   def chat(prompt, model)
