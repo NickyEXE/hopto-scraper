@@ -6,7 +6,11 @@ class PromptsController < ApplicationController
 
   def create
     prompt = Prompt.smart_create(params[:name], params[:prompt])
-    render json: prompt
+    if prompt.valid?
+      render json: prompt
+    else
+      render json: {error: prompt.errors.full_messages.to_sentence}
+    end
   end
 
   def set_prompt
