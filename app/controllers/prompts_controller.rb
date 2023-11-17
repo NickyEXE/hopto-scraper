@@ -14,13 +14,13 @@ class PromptsController < ApplicationController
   end
 
   def set_prompt
-    prompt = Prompt.find_by(id: params[:id])
+    prompt = Prompt.find_by(name: params[:name].upcase)
     if prompt
       Prompt.update_all(enabled: false)
       prompt.update(enabled: true)
       render json: prompt
     else
-      render json: {error: "Could not find prompt with that id"}, status: 404
+      render json: {error: "There is no personality with the name #{params[:name]}"}, status: 404
     end
   end
 end
